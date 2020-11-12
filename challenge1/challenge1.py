@@ -11,6 +11,7 @@ from tensorflow.keras.preprocessing.image import ImageDataGenerator
 
 SEED = 1996
 
+
 def divideDatasetInTargetFolders(json_definition, dataset_path):
     for elem in json_definition:
         dest_dir =  os.path.join(dataset_path, str(json_definition[elem]))
@@ -19,6 +20,10 @@ def divideDatasetInTargetFolders(json_definition, dataset_path):
         shutil.move(os.path.join(dataset_path, elem),
                     os.path.join(dest_dir, elem)
                     )
+    aug_path = os.path.join(train_path, 'augmented')
+    if not os.path.isdir(aug_path):
+        os.mkdir(aug_path)
+
 
 def getMaxImageSize(dataset_dir):
     max_w = 0
@@ -49,16 +54,6 @@ def getMinImageSize(dataset_dir, max_w, max_h):
     return min_w, min_h
 
 
-def divideDatasetInTargetFolders(json_definition, dataset_path):
-    for elem in json_definition:
-        dest_dir =  os.path.join(dataset_path, str(json_definition[elem]))
-        if not os.path.isdir(dest_dir):
-            os.mkdir(dest_dir)
-        shutil.move(os.path.join(dataset_path, elem),
-                    os.path.join(dest_dir, elem)
-                    )
-
-
 train_path = os.path.join(os.getcwd(), 'MaskDataset/training')
 test_path  = os.path.join(os.getcwd(), 'MaskDataset/test')
 
@@ -82,6 +77,7 @@ print("Maximum width  expansion:  " + str(max_w - min_w) + ", increase ratio: " 
 print("Maximum height expansion:  " + str(max_h - min_h) + ", increase ratio: " +
       str(float(max_h)/float(max_h - min_h)))
 
+# interpolate param of the following function should be explored
 preproc_fun_fixed = partial(tf.keras.preprocessing.image.smart_resize, size=(max_w, max_h))
 
 train_data_gen = ImageDataGenerator(rotation_range=10,
@@ -116,3 +112,5 @@ valid_gen = train_data_gen.flow_from_directory(train_path,
                                    subset='validation'
                                    )
 
+train_set = tf.data.Dataset.from_generator(train_gen,
+                                           )
