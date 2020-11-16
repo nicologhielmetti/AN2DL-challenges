@@ -106,7 +106,7 @@ test_data_gen = ImageDataGenerator(rescale=1. / 255, preprocessing_function=prep
 classes = ['0', '1', '2']
 save_dir = os.path.join(train_path, 'augmented')
 
-bs = 8
+bs = 32
 
 train_gen = train_data_gen.flow_from_directory(train_path,
                                                target_size=(max_w, max_h),
@@ -163,8 +163,8 @@ train_set.repeat()
 validation_set.repeat()
 test_set.repeat()
 
-start_f = 8
-depth = 3
+start_f = 4
+depth = 6
 
 model = CNNClassifier(depth=depth,
                       start_f=start_f,

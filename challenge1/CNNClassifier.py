@@ -30,7 +30,9 @@ class CNNClassifier(tf.keras.Model):
 
         self.flatten = tf.keras.layers.Flatten()
         self.classifier = tf.keras.Sequential()
-        self.classifier.add(tf.keras.layers.Dense(units=512, activation='relu'))
+        self.classifier.add(tf.keras.layers.Dense(units=256, activation='relu'))
+        self.classifier.add(tf.keras.layers.Dense(units=128, activation='relu'))
+        self.classifier.add(tf.keras.layers.Dense(units=64, activation='relu'))
         self.classifier.add(tf.keras.layers.Dense(units=num_classes, activation='softmax'))
 
     def call(self, inputs, **kwargs):
@@ -38,3 +40,8 @@ class CNNClassifier(tf.keras.Model):
         x = self.flatten(x)
         x = self.classifier(x)
         return x
+
+    def summary(self, line_length=None, positions=None, print_fn=None):
+        super(CNNClassifier, self).summary(line_length, positions, print_fn)
+        self.feature_extractor.summary()
+        self.classifier.summary()
