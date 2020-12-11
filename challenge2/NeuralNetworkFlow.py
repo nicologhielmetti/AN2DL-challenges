@@ -1,7 +1,6 @@
 import multiprocessing
 import os
 from datetime import datetime
-
 from CustomDataset import CustomDataset
 from NeuralNetworkModel import NeuralNetworkModel
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
@@ -64,13 +63,13 @@ class NeuralNetworkFlow:
                                                         output_shapes=([*self.out_shape, 3],
                                                                        [*self.out_shape, 1])
                                                         ).batch(self.batch_size).repeat()
-        # TODO: check this part wrt the examples
 
         self.validation_set = tf.data.Dataset.from_generator(lambda: validation_set,
                                                              output_types=(tf.float32, tf.float32),
                                                              output_shapes=([*self.out_shape, 3],
                                                                             [*self.out_shape, 1])
                                                              ).batch(self.batch_size).repeat()
+        # @TODO: read_rgb_mask
 
     def test_data_generator(self):
         evenly_spaced_interval = np.linspace(0, 1, 20)
@@ -202,5 +201,4 @@ class NeuralNetworkFlow:
             per_class_iou.append(iou)
 
         return tf.reduce_mean(per_class_iou)
-
 
