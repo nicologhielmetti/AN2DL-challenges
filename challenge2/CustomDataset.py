@@ -23,7 +23,9 @@ class CustomDataset(tf.keras.utils.Sequence):
     """
 
     def __init__(self, seed, dataset_dir, which_subset, img_generator=None, mask_generator=None,
-                 preprocessing_function=None, out_shape=[256, 256]):
+                 preprocessing_function=None, out_shape=None):
+        if out_shape is None:
+            out_shape = [256, 256]
         if which_subset == 'training':
             subset_file = os.path.join(dataset_dir, 'Splits', 'train.txt')
         elif which_subset == 'validation':
@@ -55,11 +57,11 @@ class CustomDataset(tf.keras.utils.Sequence):
         # Read Image
         curr_filename = self.subset_filenames[index]
         img = Image.open(os.path.join(self.dataset_dir, 'Images', curr_filename + '.jpg'))
-        mask = Image.open(os.path.join(self.dataset_dir, 'Annotations', curr_filename + '.png'))
+        mask = self._read_rgb_mask(os.path.join(self.dataset_dir, 'Masks', curr_filename + '.png'))
 
         # Resize image and mask
         img = img.resize(self.out_shape)
-        mask = mask.resize(self.out_shape, resample=Image.NEAREST)
+        mask = tf.image.resize(mask, self.out_shape, resample=Image.NEAREST)
 
         img_arr = np.array(img)
         mask_arr = np.array(mask)
@@ -103,3 +105,22 @@ class CustomDataset(tf.keras.utils.Sequence):
             img_arr = self.preprocessing_function(img_arr)
 
         return img_arr, np.float32(out_mask)
+
+    def _read_rgb_mask(self, img_path):
+        '''
+        img_path: path to the mask file
+        Returns the numpy array containing target values
+        '''
+
+        mask_img = Image.open(img_path)
+        mask_img = mask_img.resize(self.out_shape, resample=Image.NEAREST)
+        mask_arr = np.array(mask_img)
+
+        new_mask_arr = np.zeros(mask_arr.shape[:2], dtype=mask_arr.dtype)
+
+        # Use RGB dictionary in 'RGBtoTarget.txt' to convert RGB to target
+        new_mask_arr[np.where(np.all(mask_arr == [216, 124, 18], axis=-1))] = 0
+        new_mask_arr[np.where(np.all(mask_arr == [255, 255, 255], axis=-1))] = 1
+        new_mask_arr[np.where(np.all(mask_arr == [216, 67, 82], axis=-1))] = 2
+
+        return new_mask_arr

@@ -69,7 +69,6 @@ class NeuralNetworkFlow:
                                                              output_shapes=([*self.out_shape, 3],
                                                                             [*self.out_shape, 1])
                                                              ).batch(self.batch_size).repeat()
-        # @TODO: read_rgb_mask
 
     def test_data_generator(self):
         evenly_spaced_interval = np.linspace(0, 1, 20)
@@ -150,6 +149,14 @@ class NeuralNetworkFlow:
         pool.close()
         pool.join()
 
+    def load_model(self, model_path):
+        model = tf.keras.models.load_model(model_path)
+        self.add_neural_network_model(model, compile=False)
+
+    def load_weights(self, weights_path, model, callbacks, epochs, optimizer, loss, metrics):
+        model.load_weights(weights_path)
+        self.add_neural_network_model(model, callbacks, epochs, optimizer, loss, metrics)
+
     @staticmethod
     def create_callbacks(experiment_dir_path='exp_dir_chall2', model_name='CNN', save_weights_only=False,
                          early_stopping=True, patience=10):
@@ -180,9 +187,9 @@ class NeuralNetworkFlow:
             callbacks.append(es_callback)
         return callbacks
 
-    def add_neural_network_model(self, model, callbacks, epochs, optimizer, loss, metrics):
+    def add_neural_network_model(self, model, callbacks, epochs, optimizer, loss, metrics, compile=True):
         self.models.append(
-            NeuralNetworkModel(model, callbacks, epochs, optimizer, loss, metrics)
+            NeuralNetworkModel(model, callbacks, epochs, optimizer, loss, metrics, compile)
         )
 
     def meanIoU(self, y_true, y_pred):
