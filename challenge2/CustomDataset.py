@@ -1,3 +1,4 @@
+import json
 import os
 import tensorflow as tf
 import numpy as np
@@ -27,23 +28,21 @@ class CustomDataset(tf.keras.utils.Sequence):
         if out_shape is None:
             out_shape = [256, 256]
         if which_subset == 'training':
-            subset_file = os.path.join(dataset_dir, 'Splits', 'train.txt')
+            subset_file = os.path.join(dataset_dir, 'Splits', 'train.json')
         elif which_subset == 'validation':
-            subset_file = os.path.join(dataset_dir, 'Splits', 'val.txt')
+            subset_file = os.path.join(dataset_dir, 'Splits', 'val.json')
         else:
             print("ERROR! 'subset_file' variable must be 'training' or 'validation'.")
             return
 
         with open(subset_file, 'r') as f:
-            lines = f.readlines()
+            lines = json.load(f)
 
-        subset_filenames = []
-        for line in lines:
-            subset_filenames.append(line.strip())
+        self.images_path = lines[0]
+        self.masks_path = lines[1]
 
         self.which_subset = which_subset
         self.dataset_dir = dataset_dir
-        self.subset_filenames = subset_filenames
         self.img_generator = img_generator
         self.mask_generator = mask_generator
         self.preprocessing_function = preprocessing_function
@@ -51,13 +50,13 @@ class CustomDataset(tf.keras.utils.Sequence):
         self.seed = seed
 
     def __len__(self):
-        return len(self.subset_filenames)
+        return len(self.images_path)
 
     def __getitem__(self, index):
         # Read Image
-        curr_filename = self.subset_filenames[index]
-        img = Image.open(os.path.join(self.dataset_dir, 'Images', curr_filename + '.jpg'))
-        mask = self._read_rgb_mask(os.path.join(self.dataset_dir, 'Masks', curr_filename + '.png'))
+        # curr_filename = self.subset_filenames[index]
+        img = Image.open(os.path.join(self.images_path[index], '.jpg'))
+        mask = self._read_rgb_mask(os.path.join(self.masks_path[index], '.png'))
 
         # Resize image and mask
         img = img.resize(self.out_shape)
