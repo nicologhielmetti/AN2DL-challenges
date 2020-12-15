@@ -4,6 +4,7 @@ import os
 import zipfile
 from datetime import datetime
 import random
+from functools import partial
 
 from CustomDataset import CustomDataset
 from NeuralNetworkModel import NeuralNetworkModel
@@ -197,7 +198,8 @@ class NeuralNetworkFlow:
             print("You have to add models before training")
             return
         pool = multiprocessing.Pool(processes=None)
-        self.models = pool.map(self._fit_single_model, self.models)
+        f = partial(self._fit_single_model)
+        self.models = pool.map(f, self.models)
         pool.close()
         pool.join()
 
