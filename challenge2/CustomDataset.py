@@ -55,8 +55,8 @@ class CustomDataset(tf.keras.utils.Sequence):
     def __getitem__(self, index):
         # Read Image
         # curr_filename = self.subset_filenames[index]
-        img = Image.open(os.path.join(self.images_path[index], '.jpg'))
-        mask = self._read_rgb_mask(os.path.join(self.masks_path[index], '.png'))
+        img = Image.open(os.path.join(self.images_path[index]))
+        mask = self._read_rgb_mask(os.path.join(self.masks_path[index]))
 
         # Resize image and mask
         img = img.resize(self.out_shape)
