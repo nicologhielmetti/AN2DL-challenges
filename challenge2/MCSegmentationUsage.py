@@ -10,8 +10,7 @@ firstTentative = NeuralNetworkFlow(seed=1996,
                                    )
 firstTentative.apply_data_augmentation()
 firstTentative.create_train_validation_sets()
-for _ in range(10):
-    firstTentative.test_data_generator()
+firstTentative.test_data_generator()
 
 model = firstTentative.create_custom_model(encoder=firstTentative.create_encoder(depth=5, start_filters=4),
                                            decoder=firstTentative.create_decoder(depth=5, start_filters=4))
