@@ -197,11 +197,20 @@ class NeuralNetworkFlow:
         if len(self.models) == 0:
             print("You have to add models before training")
             return
+        '''
         pool = multiprocessing.Pool(processes=None)
         f = partial(self._fit_single_model)
         self.models = pool.map(f, self.models)
         pool.close()
         pool.join()
+        '''
+        for model in self.models:
+            model.model.fit(x=self.train_set,
+                            epochs=model.epochs,
+                            steps_per_epoch=self.train_set_len,
+                            validation_data=self.validation_set,
+                            validation_steps=self.validation_set_len,
+                            callbacks=model.callbacks)
 
     def load_model(self, model_path):
         model = tf.keras.models.load_model(model_path)
@@ -241,7 +250,8 @@ class NeuralNetworkFlow:
             callbacks.append(es_callback)
         return callbacks
 
-    def add_neural_network_model(self, model, callbacks=None, epochs=None, optimizer=None, loss=None, metrics=None, compile=True):
+    def add_neural_network_model(self, model, callbacks=None, epochs=None, optimizer=None, loss=None, metrics=None,
+                                 compile=True):
         self.models.append(
             NeuralNetworkModel(model, callbacks, epochs, optimizer, loss, metrics, compile)
         )
@@ -263,7 +273,7 @@ class NeuralNetworkFlow:
 
         return tf.reduce_mean(per_class_iou)
 
-# ----- TEST PART
+    # ----- TEST PART
 
     def _get_list_of_files(self, dirName):
         # create a list of file and sub directories
