@@ -60,7 +60,7 @@ class CustomDataset(tf.keras.utils.Sequence):
 
         # Resize image and mask
         img = img.resize(self.out_shape)
-        mask = tf.image.resize(mask, self.out_shape, resample=Image.NEAREST)
+        mask = tf.image.resize(mask, self.out_shape, method='nearest')
 
         img_arr = np.array(img)
         mask_arr = np.array(mask)
