@@ -235,7 +235,7 @@ class NeuralNetworkFlow:
                                                      histogram_freq=1)  # if 1 shows weights histograms
         callbacks.append(tb_callback)
         if early_stopping:
-            es_callback = tf.keras.callback.EarlyStopping(monitor='val_loss', patience=patience)
+            es_callback = tf.keras.callbacks.EarlyStopping(monitor='val_loss', patience=patience)
             callbacks.append(es_callback)
         return callbacks
 
