@@ -123,30 +123,31 @@ class NeuralNetworkFlow:
                                                                             [*self.out_shape, 1])
                                                              ).batch(self.batch_size).repeat()
 
-    def test_data_generator(self):
+    def test_data_generator(self, n_show=10):
         evenly_spaced_interval = np.linspace(0, 1, 20)
         self.colors = [cm.rainbow(x) for x in evenly_spaced_interval]
         iterator = iter(self.validation_set)
         fig, ax = plt.subplots(1, 2)
 
-        augmented_img, self.target = next(iterator)
-        augmented_img = augmented_img[0]  # First element
-        # augmented_img = augmented_img  # denormalize - what the hell is this line intended for?!
+        for _ in range(n_show):
+            augmented_img, self.target = next(iterator)
+            augmented_img = augmented_img[0]  # First element
+            augmented_img = augmented_img  # denormalize - what the hell is this line intended for?!
 
-        self.target = np.array(self.target[0, ..., 0])  # First element (squeezing channel dimension)
+            self.target = np.array(self.target[0, ..., 0])  # First element (squeezing channel dimension)
 
-        print(np.unique(self.target))
+            print(np.unique(self.target))
 
-        target_img = np.zeros([self.target.shape[0], self.target.shape[1], 3])
+            target_img = np.zeros([self.target.shape[0], self.target.shape[1], 3])
 
-        target_img[np.where(self.target == 0)] = [0, 0, 0]
-        for i in range(1, self.n_classes):
-            target_img[np.where(self.target == i)] = np.array(self.colors[i - 1])[:3] * 255
+            target_img[np.where(self.target == 0)] = [0, 0, 0]
+            for i in range(1, self.n_classes):
+                target_img[np.where(self.target == i)] = np.array(self.colors[i - 1])[:3] * 255
 
-        ax[0].imshow(np.uint8(augmented_img))
-        ax[1].imshow(np.uint8(target_img))
+            ax[0].imshow(np.uint8(augmented_img))
+            ax[1].imshow(np.uint8(target_img))
 
-        plt.show()
+            plt.show()
 
     @staticmethod
     def create_custom_model(encoder, decoder):
