@@ -31,9 +31,6 @@ class CustomDataset(tf.keras.utils.Sequence):
             subset_file = os.path.join(os.getcwd(), 'train.json')
         elif which_subset == 'validation':
             subset_file = os.path.join(os.getcwd(), 'val.json')
-        else:
-            print("ERROR! 'subset_file' variable must be 'training' or 'validation'.")
-            return
 
         with open(subset_file, 'r') as f:
             lines = json.load(f)
@@ -71,32 +68,28 @@ class CustomDataset(tf.keras.utils.Sequence):
 
         mask_arr = np.expand_dims(mask_arr, -1)
 
-        if self.which_subset == 'training':
-            if self.img_generator is not None and self.mask_generator is not None:
-                # Perform data augmentation
-                # We can get a random transformation from the ImageDataGenerator using get_random_transform
-                # and we can apply it to the image using apply_transform
-                img_t = self.img_generator.get_random_transform(img_arr.shape, seed=self.seed)
-                mask_t = self.mask_generator.get_random_transform(mask_arr.shape, seed=self.seed)
-                img_arr = self.img_generator.apply_transform(img_arr, img_t)
-                # ImageDataGenerator use bilinear interpolation for augmenting the images.
-                # Thus, when applied to the masks it will output 'interpolated classes', which
-                # is an unwanted behaviour. As a trick, we can transform each class mask
-                # separately and then we can cast to integer values (as in the binary segmentation notebook).
-                # Finally, we merge the augmented binary masks to obtain the final segmentation mask.
-                out_mask = np.zeros_like(mask_arr)
-                for c in np.unique(mask_arr):
-                    if c > 0:
-                        curr_class_arr = np.float32(mask_arr == c)
-                        curr_class_arr = self.mask_generator.apply_transform(curr_class_arr, mask_t)
-                        # from [0, 1] to {0, 1}
-                        curr_class_arr = np.uint8(curr_class_arr)
-                        # recover original class
-                        curr_class_arr = curr_class_arr * c
-                        out_mask += curr_class_arr
-            else:
-                print("ERROR! 'subset_file' variable must be 'training' or 'validation'.")
-                return
+        if self.img_generator is not None and self.mask_generator is not None:
+            # Perform data augmentation
+            # We can get a random transformation from the ImageDataGenerator using get_random_transform
+            # and we can apply it to the image using apply_transform
+            img_t = self.img_generator.get_random_transform(img_arr.shape, seed=self.seed)
+            mask_t = self.mask_generator.get_random_transform(mask_arr.shape, seed=self.seed)
+            img_arr = self.img_generator.apply_transform(img_arr, img_t)
+            # ImageDataGenerator use bilinear interpolation for augmenting the images.
+            # Thus, when applied to the masks it will output 'interpolated classes', which
+            # is an unwanted behaviour. As a trick, we can transform each class mask
+            # separately and then we can cast to integer values (as in the binary segmentation notebook).
+            # Finally, we merge the augmented binary masks to obtain the final segmentation mask.
+            out_mask = np.zeros_like(mask_arr)
+            for c in np.unique(mask_arr):
+                if c > 0:
+                    curr_class_arr = np.float32(mask_arr == c)
+                    curr_class_arr = self.mask_generator.apply_transform(curr_class_arr, mask_t)
+                    # from [0, 1] to {0, 1}
+                    curr_class_arr = np.uint8(curr_class_arr)
+                    # recover original class
+                    curr_class_arr = curr_class_arr * c
+                    out_mask += curr_class_arr
         else:
             out_mask = mask_arr
 
