@@ -77,8 +77,8 @@ class NeuralNetworkFlow:
         final_val_list = []
         for team in self.teams:
             for crop in self.crops:
-                temp_tot_list = [os.path.join(dataset_path, team, crop, "Images", f) for f in
-                                 os.listdir(os.path.join(dataset_path, team, crop, "Images")) if
+                temp_tot_list = [os.path.join(os.getcwd(), team, crop, "Images", f) for f in
+                                 os.listdir(os.path.join(os.getcwd(), team, crop, "Images")) if
                                  f.endswith('.png') or f.endswith('.jpg')]
                 temp_train_list = random.sample(temp_tot_list, int(len(temp_tot_list) * (1 - train_val_split)))
                 temp_validation_list = self.list_difference(temp_tot_list, temp_train_list)
@@ -123,13 +123,13 @@ class NeuralNetworkFlow:
                                                                             [*self.out_shape, 1])
                                                              ).batch(self.batch_size).repeat()
 
-    def test_data_generator(self, n_show=10):
+    def test_data_generator(self, n_range=10):
         evenly_spaced_interval = np.linspace(0, 1, 20)
         self.colors = [cm.rainbow(x) for x in evenly_spaced_interval]
         iterator = iter(self.validation_set)
-        fig, ax = plt.subplots(1, 2)
 
-        for _ in range(n_show):
+        for _ in range(n_range):
+            fig, ax = plt.subplots(1, 2)
             augmented_img, self.target = next(iterator)
             augmented_img = augmented_img[0]  # First element
             augmented_img = augmented_img  # denormalize - what the hell is this line intended for?!
@@ -371,8 +371,8 @@ class NeuralNetworkFlow:
             json.dump(submission_dict, f)
         zipfile.ZipFile('submission.zip', mode='w').write("submission.json")
 
-        from google.colab import files
-        files.download('submission.zip')
+        #from google.colab import files
+        #files.download('submission.zip')
 
     def _rle_decode(self, rle, shape):
         s = rle.split()

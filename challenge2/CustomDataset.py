@@ -28,9 +28,9 @@ class CustomDataset(tf.keras.utils.Sequence):
         if out_shape is None:
             out_shape = [256, 256]
         if which_subset == 'training':
-            subset_file = os.path.join(dataset_dir, 'Splits', 'train.json')
+            subset_file = os.path.join(os.getcwd(), 'train.json')
         elif which_subset == 'validation':
-            subset_file = os.path.join(dataset_dir, 'Splits', 'val.json')
+            subset_file = os.path.join(os.getcwd(), 'val.json')
         else:
             print("ERROR! 'subset_file' variable must be 'training' or 'validation'.")
             return

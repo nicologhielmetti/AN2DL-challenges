@@ -1,22 +1,27 @@
 from NeuralNetworkFlow import NeuralNetworkFlow
 import tensorflow as tf
+import segmentation_models as sm
 
 img_h = 2048
 img_w = 1536
+
+model = sm.Unet('resnet101', classes=3, activation='softmax')
+preproc_f = sm.get_preprocessing('resnet101')
+
 firstTentative = NeuralNetworkFlow(seed=1996,
-                                   dataset_path='/content/Development_Dataset/Training',
+                                   dataset_path='Development_Dataset/Training',
                                    n_classes=3,
                                    out_h=256, out_w=256, img_h=img_h, img_w=img_w,
                                    batch_size=32,
                                    n_test_images=15
                                    )
 firstTentative.apply_data_augmentation()
-firstTentative.create_train_validation_sets()
-firstTentative.test_data_generator()
+firstTentative.create_train_validation_sets(preprocessing_function=preproc_f, use_data_aug_test_time=True)
+# firstTentative.test_data_generator()
 
-model = firstTentative.create_custom_model(encoder=tf.keras.applications.VGG16(weights='imagenet', include_top=False,
-                                                                               input_shape=(img_h, img_w, 3)),
-                                           decoder=firstTentative.create_decoder(depth=5, start_filters=8))
+# model = firstTentative.create_custom_model(encoder=tf.keras.applications.VGG16(weights='imagenet', include_top=False,
+#                                                                                input_shape=(img_h, img_w, 3)),
+#                                            decoder=firstTentative.create_decoder(depth=5, start_filters=32))
 
 firstTentative.add_neural_network_model(model, firstTentative.create_callbacks(model_name="FIRST_TENTATIVE",
                                                                                save_weights_only=True),
@@ -27,4 +32,4 @@ firstTentative.add_neural_network_model(model, firstTentative.create_callbacks(m
                                         )
 
 firstTentative.train_models()
-firstTentative.test_models(test_path='/content/Development_Dataset/Test_Dev')
+firstTentative.test_models(test_path='Development_Dataset/Test_Dev')
