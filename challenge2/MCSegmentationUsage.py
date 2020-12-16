@@ -9,7 +9,7 @@ model = sm.Unet('resnet101', classes=3, activation='softmax')
 preproc_f = sm.get_preprocessing('resnet101')
 
 firstTentative = NeuralNetworkFlow(seed=1996,
-                                   dataset_path='Development_Dataset/Training',
+                                   dataset_path='/content/Development_Dataset/Training',
                                    n_classes=3,
                                    out_h=256, out_w=256, img_h=img_h, img_w=img_w,
                                    batch_size=32,
@@ -32,4 +32,4 @@ firstTentative.add_neural_network_model(model, firstTentative.create_callbacks(m
                                         )
 
 firstTentative.train_models()
-firstTentative.test_models(test_path='Development_Dataset/Test_Dev')
+firstTentative.test_models(test_path='/content/Development_Dataset/Test_Dev')
