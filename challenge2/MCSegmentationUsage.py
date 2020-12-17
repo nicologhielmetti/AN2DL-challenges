@@ -23,13 +23,13 @@ firstTentative.create_train_validation_sets(preprocessing_function=preproc_f, us
 #                                                                                input_shape=(img_h, img_w, 3)),
 #                                            decoder=firstTentative.create_decoder(depth=5, start_filters=32))
 
-# firstTentative.add_neural_network_model(model, firstTentative.create_callbacks(model_name="FIRST_TENTATIVE",
-#                                                                                save_weights_only=True),
-#                                         epochs=100,
-#                                         optimizer=tf.keras.optimizers.Adam(learning_rate=1e-4),
-#                                         loss=tf.keras.losses.SparseCategoricalCrossentropy(),
-#                                         metrics=['accuracy', firstTentative.meanIoU]
-#                                         )
+firstTentative.add_neural_network_model(model, firstTentative.create_callbacks(model_name="FIRST_TENTATIVE",
+                                                                               save_weights_only=True),
+                                        epochs=100,
+                                        optimizer=tf.keras.optimizers.Adam(learning_rate=1e-4),
+                                        loss=tf.keras.losses.SparseCategoricalCrossentropy(),
+                                        metrics=['accuracy', firstTentative.meanIoU]
+                                        )
 
 # firstTentative.load_weights('/content/drive/MyDrive/exp_dir_chall2/FIRST_TENTATIVE_Dec17_00-23-32/ckpts/cp_04.ckpt', model,
 #                             firstTentative.create_callbacks(
