@@ -37,4 +37,4 @@ firstTentative.load_weights('/content/drive/MyDrive/exp_dir_chall2/FIRST_TENTATI
                             epochs=100, optimizer=tf.keras.optimizers.Adam(learning_rate=1e-4),
                             loss=tf.keras.losses.SparseCategoricalCrossentropy(),
                             metrics=['accuracy', firstTentative.meanIoU])
-firstTentative.test_models(test_path='Development_Dataset/Test_Dev')
+firstTentative.test_models(test_path='/content/Development_Dataset/Test_Dev')
