@@ -225,7 +225,7 @@ class NeuralNetworkFlow:
     def create_callbacks(experiment_dir_path='exp_dir_chall2', model_name='CNN', save_weights_only=False,
                          early_stopping=True, patience=10):
 
-        exps_dir = os.path.join('content/drive/My Drive/', experiment_dir_path)
+        exps_dir = os.path.join('/content/drive/My Drive/', experiment_dir_path)
         if not os.path.exists(exps_dir):
             os.makedirs(exps_dir)
         now = datetime.now().strftime('%b%d_%H-%M-%S')
