@@ -31,11 +31,11 @@ firstTentative.create_train_validation_sets(preprocessing_function=preproc_f, us
 #                                         metrics=['accuracy', firstTentative.meanIoU]
 #                                         )
 
-firstTentative.load_weights('/content/drive/MyDrive/exp_dir_chall2/FIRST_TENTATIVE_Dec17_00-23-32/ckpts/cp_04.ckpt', model,
-                            firstTentative.create_callbacks(
-                                model_name="FIRST_TENTATIVE", save_weights_only=True, monitor='val_meanIoU'),
-                            epochs=100, optimizer=tf.keras.optimizers.Adam(learning_rate=1e-4),
-                            loss=tf.keras.losses.SparseCategoricalCrossentropy(),
-                            metrics=['accuracy', firstTentative.meanIoU])
+# firstTentative.load_weights('/content/drive/MyDrive/exp_dir_chall2/FIRST_TENTATIVE_Dec17_00-23-32/ckpts/cp_04.ckpt', model,
+#                             firstTentative.create_callbacks(
+#                                 model_name="FIRST_TENTATIVE", save_weights_only=True, monitor='val_meanIoU'),
+#                             epochs=100, optimizer=tf.keras.optimizers.Adam(learning_rate=1e-4),
+#                             loss=tf.keras.losses.SparseCategoricalCrossentropy(),
+#                             metrics=['accuracy', firstTentative.meanIoU])
 firstTentative.train_models()
 firstTentative.test_models(test_path='/content/Development_Dataset/Test_Dev')
