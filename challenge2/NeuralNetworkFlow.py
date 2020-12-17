@@ -113,14 +113,14 @@ class NeuralNetworkFlow:
         self.validation_set_len = len(validation_set)
         self.train_set = tf.data.Dataset.from_generator(lambda: train_set,
                                                         output_types=(tf.float32, tf.float32),
-                                                        output_shapes=([self.out_shape[1], self.out_shape[0], 3],
-                                                                       [self.out_shape[1], self.out_shape[0], 1])
+                                                        output_shapes=([*self.out_shape, 3],
+                                                                       [*self.out_shape, 1])
                                                         ).batch(self.batch_size).repeat()
 
         self.validation_set = tf.data.Dataset.from_generator(lambda: validation_set,
                                                              output_types=(tf.float32, tf.float32),
-                                                             output_shapes=([self.out_shape[1], self.out_shape[0], 3],
-                                                                            [self.out_shape[1], self.out_shape[0], 1])
+                                                             output_shapes=([*self.out_shape, 3],
+                                                                            [*self.out_shape, 1])
                                                              ).batch(self.batch_size).repeat()
 
     def test_data_generator(self, n_range=10):
@@ -136,7 +136,7 @@ class NeuralNetworkFlow:
 
             print(np.unique(self.target))
 
-            target_img = np.zeros([self.target.shape[0], self.target.shape[1], 3])
+            target_img = np.zeros([self.out_shape[0], self.out_shape[1], 3])
 
             target_img[np.where(self.target == 0)] = [0, 0, 0]
             for i in range(1, self.n_classes):
