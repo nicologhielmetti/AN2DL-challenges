@@ -11,7 +11,7 @@ preproc_f = sm.get_preprocessing('resnet101')
 firstTentative = NeuralNetworkFlow(seed=1996,
                                    dataset_path='/content/Development_Dataset/Training',
                                    n_classes=3,
-                                   out_h=img_h, out_w=img_w, img_h=img_h, img_w=img_w,
+                                   out_w=img_w, out_h=img_h, img_w=img_w, img_h=img_h,
                                    batch_size=32,
                                    n_test_images=15
                                    )

@@ -113,14 +113,14 @@ class NeuralNetworkFlow:
         self.validation_set_len = len(validation_set)
         self.train_set = tf.data.Dataset.from_generator(lambda: train_set,
                                                         output_types=(tf.float32, tf.float32),
-                                                        output_shapes=([*self.out_shape, 3],
-                                                                       [*self.out_shape, 1])
+                                                        output_shapes=([self.out_shape[0], self.out_shape[1], 3],
+                                                                       [self.out_shape[0], self.out_shape[1], 1])
                                                         ).batch(self.batch_size).repeat()
 
         self.validation_set = tf.data.Dataset.from_generator(lambda: validation_set,
                                                              output_types=(tf.float32, tf.float32),
-                                                             output_shapes=([*self.out_shape, 3],
-                                                                            [*self.out_shape, 1])
+                                                             output_shapes=([self.out_shape[0], self.out_shape[1], 3],
+                                                                            [self.out_shape[0], self.out_shape[1], 1])
                                                              ).batch(self.batch_size).repeat()
 
     def test_data_generator(self, n_range=10):
@@ -323,7 +323,7 @@ class NeuralNetworkFlow:
                 fig, ax = plt.subplots(1, 2, figsize=(8, 8))
                 fig.show()
                 predicted_mask = predicted_mask[0, ...]
-                prediction_img = np.zeros([*self.out_shape, 3])
+                prediction_img = np.zeros([self.out_shape[0], self.out_shape[1], 3])
                 prediction_img[np.where(predicted_mask == 0)] = [0, 0, 0]
                 for i in range(0, 3):
                     prediction_img[np.where(predicted_mask == i)] = np.array(self.colors[i - 1])[:3] * 255
