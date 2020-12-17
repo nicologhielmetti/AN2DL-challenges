@@ -1,10 +1,7 @@
-import glob
-import multiprocessing
 import os
 import zipfile
 from datetime import datetime
 import random
-from functools import partial
 
 from CustomDataset import CustomDataset
 from NeuralNetworkModel import NeuralNetworkModel

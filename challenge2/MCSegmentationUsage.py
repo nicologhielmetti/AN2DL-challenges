@@ -15,7 +15,7 @@ firstTentative = NeuralNetworkFlow(seed=1996,
                                    batch_size=32,
                                    n_test_images=15
                                    )
-firstTentative.apply_data_augmentation()
+# firstTentative.apply_data_augmentation()
 firstTentative.create_train_validation_sets(preprocessing_function=preproc_f, use_data_aug_test_time=True)
 # firstTentative.test_data_generator()
 
