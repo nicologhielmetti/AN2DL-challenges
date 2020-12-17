@@ -133,7 +133,7 @@ class NeuralNetworkFlow:
 
             print(np.unique(self.target))
 
-            target_img = np.zeros([self.out_shape[0], self.out_shape[1], 3])
+            target_img = np.zeros([*self.out_shape, 3])
 
             target_img[np.where(self.target == 0)] = [0, 0, 0]
             for i in range(1, self.n_classes):
@@ -319,7 +319,7 @@ class NeuralNetworkFlow:
                 fig, ax = plt.subplots(1, 2, figsize=(8, 8))
                 fig.show()
                 predicted_mask = predicted_mask[0, ...]
-                prediction_img = np.zeros([self.img_h, self.img_w, 3])
+                prediction_img = np.zeros([self.img_w, self.img_h, 3])
                 prediction_img[np.where(predicted_mask == 0)] = [0, 0, 0]
                 for i in range(0, 3):
                     prediction_img[np.where(predicted_mask == i)] = np.array(self.colors[i - 1])[:3] * 255
