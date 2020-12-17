@@ -72,8 +72,8 @@ class CustomDataset(tf.keras.utils.Sequence):
             # Perform data augmentation
             # We can get a random transformation from the ImageDataGenerator using get_random_transform
             # and we can apply it to the image using apply_transform
-            img_t = self.img_generator.get_random_transform(img_arr.shape, seed=self.seed)
-            mask_t = self.mask_generator.get_random_transform(mask_arr.shape, seed=self.seed)
+            img_t = self.img_generator.get_random_transform(self.out_shape, seed=self.seed)
+            mask_t = self.mask_generator.get_random_transform(self.out_shape, seed=self.seed)
             img_arr = self.img_generator.apply_transform(img_arr, img_t)
             # ImageDataGenerator use bilinear interpolation for augmenting the images.
             # Thus, when applied to the masks it will output 'interpolated classes', which

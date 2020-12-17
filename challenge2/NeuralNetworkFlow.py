@@ -181,25 +181,10 @@ class NeuralNetworkFlow:
             start_filters *= 2
         return encoder
 
-    def _fit_single_model(self, single_model):
-        return single_model.model.fit(x=self.train_set,
-                                      epochs=single_model.epochs,
-                                      steps_per_epoch=self.train_set_len,
-                                      validation_data=self.validation_set,
-                                      validation_steps=self.validation_set_len,
-                                      callbacks=single_model.callbacks)
-
     def train_models(self):
         if len(self.models) == 0:
             print("You have to add models before training")
             return
-        '''
-        pool = multiprocessing.Pool(processes=None)
-        f = partial(self._fit_single_model)
-        self.models = pool.map(f, self.models)
-        pool.close()
-        pool.join()
-        '''
         for model in self.models:
             model.model.fit(x=self.train_set,
                             epochs=model.epochs,
