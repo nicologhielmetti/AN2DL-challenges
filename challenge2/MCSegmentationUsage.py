@@ -2,8 +2,8 @@ from NeuralNetworkFlow import NeuralNetworkFlow
 import tensorflow as tf
 import segmentation_models as sm
 
-img_h = 2048
-img_w = 1536
+img_w = 2048
+img_h = 1536
 
 model = sm.Unet('resnet101', classes=3, activation='softmax')
 preproc_f = sm.get_preprocessing('resnet101')
