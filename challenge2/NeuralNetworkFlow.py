@@ -237,14 +237,15 @@ class NeuralNetworkFlow:
         if not os.path.exists(ckpt_dir):
             os.makedirs(ckpt_dir)
         ckpt_callback = tf.keras.callbacks.ModelCheckpoint(filepath=os.path.join(ckpt_dir, 'cp_{epoch:02d}.ckpt'),
-                                                           save_weights_only=save_weights_only)
+                                                           save_weights_only=save_weights_only, verbose=1,
+                                                           save_best_only=True)
         callbacks.append(ckpt_callback)
         tb_dir = os.path.join(exp_dir, 'tb_logs')
         if not os.path.exists(tb_dir):
             os.makedirs(tb_dir)
         tb_callback = tf.keras.callbacks.TensorBoard(log_dir=tb_dir,
                                                      profile_batch=0,
-                                                     histogram_freq=1)  # if 1 shows weights histograms
+                                                     histogram_freq=1)
         callbacks.append(tb_callback)
         if early_stopping:
             es_callback = tf.keras.callbacks.EarlyStopping(monitor='val_loss', patience=patience)
