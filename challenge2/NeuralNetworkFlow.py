@@ -43,9 +43,9 @@ class NeuralNetworkFlow:
         self.validation_set = None
         self.train_set_len = None
         self.validation_set_len = None
-        self.colors = None
         self.target = None
 
+        self.colors = [cm.rainbow(x) for x in np.linspace(0, 1, 20)]
         random.seed(seed)
 
     def apply_data_augmentation(self, rotation_range=0, width_shift_range=0, height_shift_range=0,
@@ -124,8 +124,6 @@ class NeuralNetworkFlow:
                                                              ).batch(self.batch_size).repeat()
 
     def test_data_generator(self, n_range=10):
-        evenly_spaced_interval = np.linspace(0, 1, 20)
-        self.colors = [cm.rainbow(x) for x in evenly_spaced_interval]
         iterator = iter(self.validation_set)
 
         for _ in range(n_range):
