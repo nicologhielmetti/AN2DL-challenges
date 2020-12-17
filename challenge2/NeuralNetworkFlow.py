@@ -317,7 +317,7 @@ class NeuralNetworkFlow:
         for model in self.models:
             for _ in range(self.n_test_images):
                 image = next(iterator)
-                out_sigmoid = model.predict(x=tf.expand_dims(image, 0))
+                out_sigmoid = model.model.predict(x=tf.expand_dims(image, 0))
                 predicted_mask = tf.argmax(out_sigmoid, -1)  # masks
                 mask_arr = np.array(predicted_mask)  # converted
                 predictions.append(mask_arr)
