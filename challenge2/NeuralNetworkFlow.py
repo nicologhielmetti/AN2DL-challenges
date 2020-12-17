@@ -324,7 +324,7 @@ class NeuralNetworkFlow:
                 fig, ax = plt.subplots(1, 2, figsize=(8, 8))
                 fig.show()
                 predicted_mask = predicted_mask[0, ...]
-                prediction_img = np.zeros([self.target.shape[0], self.target.shape[1], 3])
+                prediction_img = np.zeros([*self.out_shape, 3])
                 prediction_img[np.where(predicted_mask == 0)] = [0, 0, 0]
                 for i in range(0, 3):
                     prediction_img[np.where(predicted_mask == i)] = np.array(self.colors[i - 1])[:3] * 255
