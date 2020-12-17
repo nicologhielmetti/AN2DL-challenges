@@ -288,7 +288,7 @@ class NeuralNetworkFlow:
             # If entry is a directory then get the list of files in this directory
             if os.path.isdir(fullPath):
                 allFiles = allFiles + self._get_list_of_files(fullPath)
-            else:
+            elif entry[-4:] == '.png' or entry[-4:] == '.jpg':
                 allFiles.append(fullPath)
 
         return allFiles
