@@ -23,7 +23,7 @@ class NeuralNetworkFlow:
             self.teams = ["Bipbip", "Pead", "Roseau", "Weedelec"]
         self.default_teams = ["Bipbip", "Pead", "Roseau", "Weedelec"]
         self.default_crops = ["Haricot", "Mais"]
-        self.out_shape = [out_h, out_w]
+        self.out_shape = [out_w, out_h]
         self.seed = seed
         self.dataset_path = dataset_path
         self.n_classes = n_classes
