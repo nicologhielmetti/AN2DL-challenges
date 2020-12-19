@@ -113,8 +113,8 @@ class NeuralNetworkFlow:
             .batch(self.batch_size).repeat()
 
         self.validation_set = tf.data.Dataset.from_generator(lambda: validation_set,
-                                                             output_types=(tf.float32, tf.float32)).\
-            batch(self.batch_size).repeat()
+                                                             output_types=(tf.float32, tf.float32))\
+            .batch(self.batch_size).repeat()
 
     def test_data_generator(self, n_range=10):
         iterator = iter(self.validation_set)
