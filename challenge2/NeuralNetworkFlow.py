@@ -109,21 +109,17 @@ class NeuralNetworkFlow:
         self.train_set_len = len(train_set)
         self.validation_set_len = len(validation_set)
         self.train_set = tf.data.Dataset.from_generator(lambda: train_set,
-                                                        output_types=(tf.float32, tf.float32),
-                                                        output_shapes=([self.out_shape[0], self.out_shape[1], 3],
-                                                                       [self.out_shape[0], self.out_shape[1], 1])
+                                                        output_types=(tf.float32, tf.float32))
                                                         ).batch(self.batch_size).repeat()
 
         self.validation_set = tf.data.Dataset.from_generator(lambda: validation_set,
-                                                             output_types=(tf.float32, tf.float32),
-                                                             output_shapes=([self.out_shape[0], self.out_shape[1], 3],
-                                                                            [self.out_shape[0], self.out_shape[1], 1])
+                                                             output_types=(tf.float32, tf.float32)
                                                              ).batch(self.batch_size).repeat()
 
     def test_data_generator(self, n_range=10):
         iterator = iter(self.validation_set)
 
-        for _ in range(n_range):
+        for _ in range(n_ra
             fig, ax = plt.subplots(1, 2)
             augmented_img, self.target = next(iterator)
             augmented_img = augmented_img[0]  # First element
