@@ -61,6 +61,8 @@ class CustomDataset(tf.keras.utils.Sequence):
 
         img_arr = np.array(img)
         mask_arr = np.array(mask)
+        print(img_arr.shape)
+        print(mask_arr.shape)
 
         # in this dataset 255 mask label is assigned to an additional class, which corresponds
         # to the contours of the objects. We remove it for simplicity.
@@ -96,8 +98,7 @@ class CustomDataset(tf.keras.utils.Sequence):
         if self.preprocessing_function is not None:
             img_arr = self.preprocessing_function(img_arr)
 
-        print(img_arr.shape)
-        print(out_mask.shape)
+
         return img_arr, np.float32(out_mask)
 
     def _read_rgb_mask(self, img_path):
