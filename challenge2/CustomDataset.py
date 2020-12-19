@@ -60,9 +60,10 @@ class CustomDataset(tf.keras.utils.Sequence):
         # mask = tf.image.resize(mask, self.out_shape, method='nearest')
 
         img_arr = np.array(img)
+        img_arr = np.einsum('abc->bac', img_arr)
         mask_arr = np.array(mask)
-        print(img_arr.shape)
-        print(mask_arr.shape)
+        mask_arr = np.einsum('abc->bac', mask_arr)
+
 
         # in this dataset 255 mask label is assigned to an additional class, which corresponds
         # to the contours of the objects. We remove it for simplicity.
