@@ -57,7 +57,6 @@ class CustomDataset(tf.keras.utils.Sequence):
 
         # Resize image and mask
         img = img.resize(self.out_shape)
-        print(self.out_shape)
         # mask = tf.image.resize(mask, self.out_shape, method='nearest')
 
         img_arr = np.array(img)
@@ -97,6 +96,8 @@ class CustomDataset(tf.keras.utils.Sequence):
         if self.preprocessing_function is not None:
             img_arr = self.preprocessing_function(img_arr)
 
+        print(img_arr.shape)
+        print(out_mask.shape)
         return img_arr, np.float32(out_mask)
 
     def _read_rgb_mask(self, img_path):

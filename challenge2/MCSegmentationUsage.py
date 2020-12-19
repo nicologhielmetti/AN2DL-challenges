@@ -8,7 +8,7 @@ img_w = 2048
 img_h = 1536
 
 model = sm.Unet('resnet101', classes=3, activation='softmax', input_shape=(img_h, img_w, 3), encoder_weights='imagenet')
-# preproc_f = sm.get_preprocessing('resnet101')
+preproc_f = sm.get_preprocessing('resnet101')
 
 firstTentative = NeuralNetworkFlow(seed=1996,
                                    dataset_path='/content/Development_Dataset/Training',
@@ -18,7 +18,7 @@ firstTentative = NeuralNetworkFlow(seed=1996,
                                    n_test_images=15
                                    )
 firstTentative.apply_data_augmentation()
-firstTentative.create_train_validation_sets(use_data_aug_test_time=False)
+firstTentative.create_train_validation_sets(preprocessing_function=preproc_f, use_data_aug_test_time=False)
 firstTentative.test_data_generator()
 
 # model = firstTentative.create_custom_model(encoder=tf.keras.applications.VGG16(weights='imagenet', include_top=False,
