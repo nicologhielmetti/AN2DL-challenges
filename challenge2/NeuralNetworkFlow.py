@@ -40,7 +40,6 @@ class NeuralNetworkFlow:
         self.validation_set = None
         self.train_set_len = None
         self.validation_set_len = None
-        self.target = None
 
         self.colors = [cm.rainbow(x) for x in np.linspace(0, 1, 20)]
         random.seed(seed)
@@ -125,19 +124,19 @@ class NeuralNetworkFlow:
 
         for _ in range(n_range):
             fig, ax = plt.subplots(1, 2)
-            augmented_img, self.target = next(iterator)
+            augmented_img, target = next(iterator)
             augmented_img = augmented_img[0]  # First element
             augmented_img = augmented_img  # denormalize - what the hell is this line intended for?!
 
-            self.target = np.array(self.target[0, ..., 0])  # First element (squeezing channel dimension)
+            target = np.array(target[0, ..., 0])  # First element (squeezing channel dimension)
 
-            print(np.unique(self.target))
+            print(np.unique(target))
 
             target_img = np.zeros([*self.out_shape, 3])
 
-            target_img[np.where(self.target == 0)] = [0, 0, 0]
+            target_img[np.where(target == 0)] = [0, 0, 0]
             for i in range(1, self.n_classes):
-                target_img[np.where(self.target == i)] = np.array(self.colors[i - 1])[:3] * 255
+                target_img[np.where(target == i)] = np.array(self.colors[i - 1])[:3] * 255
 
             ax[0].imshow(np.uint8(augmented_img))
             ax[1].imshow(np.uint8(target_img))
