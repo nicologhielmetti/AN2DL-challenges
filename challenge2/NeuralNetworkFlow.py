@@ -23,7 +23,7 @@ class NeuralNetworkFlow:
             self.teams = ["Bipbip", "Pead", "Roseau", "Weedelec"]
         self.default_teams = ["Bipbip", "Pead", "Roseau", "Weedelec"]
         self.default_crops = ["Haricot", "Mais"]
-        self.out_shape = [out_w, out_h]
+        self.out_shape = [out_h, out_w]
         self.seed = seed
         self.dataset_path = dataset_path
         self.n_classes = n_classes
@@ -109,12 +109,16 @@ class NeuralNetworkFlow:
         self.train_set_len = len(train_set)
         self.validation_set_len = len(validation_set)
         self.train_set = tf.data.Dataset.from_generator(lambda: train_set,
-                                                        output_types=(tf.float32, tf.float32))\
-            .batch(self.batch_size).repeat()
+                                                        output_types=(tf.float32, tf.float32),
+                                                        output_shapes=[[*self.out_shape, 3],
+                                                                       [*self.out_shape, 1]]
+                                                        ).batch(self.batch_size).repeat()
 
         self.validation_set = tf.data.Dataset.from_generator(lambda: validation_set,
-                                                             output_types=(tf.float32, tf.float32))\
-            .batch(self.batch_size).repeat()
+                                                             output_types=(tf.float32, tf.float32),
+                                                             output_shapes=[[*self.out_shape, 3],
+                                                                            [*self.out_shape, 1]]
+                                                             ).batch(self.batch_size).repeat()
 
     def test_data_generator(self, n_range=10):
         iterator = iter(self.validation_set)
@@ -285,7 +289,7 @@ class NeuralNetworkFlow:
         test_dataset = list()
         for elem in test_elements:
             img = Image.open(elem)
-            img = img.resize([self.img_w, self.img_h], resample=Image.NEAREST)
+            img = img.resize([self.img_h, self.img_w], resample=Image.NEAREST)
             img = np.array(img)
             test_dataset.append(img)
         iterator = iter(test_dataset)
@@ -300,7 +304,7 @@ class NeuralNetworkFlow:
                 fig, ax = plt.subplots(1, 2, figsize=(8, 8))
                 fig.show()
                 predicted_mask = predicted_mask[0, ...]
-                prediction_img = np.zeros([self.img_w, self.img_h, 3])
+                prediction_img = np.zeros([self.img_h, self.img_w, 3])
                 prediction_img[np.where(predicted_mask == 0)] = [0, 0, 0]
                 for i in range(0, 3):
                     prediction_img[np.where(predicted_mask == i)] = np.array(self.colors[i - 1])[:3] * 255
