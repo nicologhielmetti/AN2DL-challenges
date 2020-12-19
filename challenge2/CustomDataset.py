@@ -60,9 +60,9 @@ class CustomDataset(tf.keras.utils.Sequence):
         # mask = tf.image.resize(mask, self.out_shape, method='nearest')
 
         img_arr = np.array(img)
-        img_arr = np.einsum('abc->bac', img_arr)
+        img_arr = np.einsum('ab->ba', img_arr)
         mask_arr = np.array(mask)
-        mask_arr = np.einsum('abc->bac', mask_arr)
+        mask_arr = np.einsum('ab->ba', mask_arr)
 
 
         # in this dataset 255 mask label is assigned to an additional class, which corresponds
