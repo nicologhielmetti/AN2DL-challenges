@@ -8,7 +8,7 @@ img_w = 2048
 img_h = 1536
 
 model = sm.Unet('resnet101', classes=3, activation='softmax', input_shape=(img_h, img_w, 3), encoder_weights='imagenet')
-preproc_f = sm.get_preprocessing('resnet101')
+# preproc_f = sm.get_preprocessing('resnet101')
 
 firstTentative = NeuralNetworkFlow(seed=1996,
                                    dataset_path='/content/Development_Dataset/Training',
