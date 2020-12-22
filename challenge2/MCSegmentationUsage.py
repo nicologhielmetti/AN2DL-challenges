@@ -30,7 +30,7 @@ firstTentative.create_train_validation_sets(preprocessing_function=preproc_f, us
 
 firstTentative.add_neural_network_model(model, firstTentative.create_callbacks(model_name="mobilenetv2",
                                                                                save_weights_only=True,
-                                                                               monitor='meanIoU'),
+                                                                               monitor='val_meanIoU'),
                                         epochs=100,
                                         optimizer=tf.keras.optimizers.Adam(learning_rate=1e-4),
                                         loss=tf.keras.losses.SparseCategoricalCrossentropy(),
