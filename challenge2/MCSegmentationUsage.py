@@ -9,9 +9,9 @@ img_h = 256
 
 # model = sm.Unet('resnet101', classes=3, activation='softmax', input_shape=(img_h, img_w, 3), encoder_weights='imagenet')
 # preproc_f = sm.get_preprocessing('resnet101')
-model = sm.FPN('mobilenetv2', classes=3, activation='softmax', input_shape=(img_h, img_w, 3), encorder_freeze=True)
+model = sm.FPN('mobilenetv2', classes=3, activation='softmax', input_shape=(img_h, img_w, 3), encoder_freeze=True)
 preproc_f = sm.get_preprocessing('mobilenetv2')
-
+#model.summary()
 
 firstTentative = NeuralNetworkFlow(seed=1996,
                                    dataset_path='/content/Development_Dataset/Training',
