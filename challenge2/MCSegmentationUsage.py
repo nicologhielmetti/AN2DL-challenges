@@ -9,7 +9,7 @@ img_h = 256
 
 # model = sm.Unet('resnet101', classes=3, activation='softmax', input_shape=(img_h, img_w, 3), encoder_weights='imagenet')
 # preproc_f = sm.get_preprocessing('resnet101')
-model = sm.Unet('resnet101', classes=3, activation='softmax', input_shape=(img_h, img_w, 3), encoder_freeze=True)
+model = sm.Unet('resnet101', classes=3, activation='softmax', input_shape=(img_h, img_w, 3), encoder_freeze=False)
 preproc_f = sm.get_preprocessing('resnet101')
 model.summary()
 
@@ -28,7 +28,7 @@ firstTentative.create_train_validation_sets(preprocessing_function=preproc_f, us
 #                                                                                input_shape=(img_h, img_w, 3)),
 #                                            decoder=firstTentative.create_decoder(depth=5, start_filters=32))
 
-firstTentative.add_neural_network_model(model, firstTentative.create_callbacks(model_name="mobilenetv2",
+firstTentative.add_neural_network_model(model, firstTentative.create_callbacks(model_name="resnet101",
                                                                                save_weights_only=True,
                                                                                monitor='val_meanIoU'),
                                         epochs=100,
