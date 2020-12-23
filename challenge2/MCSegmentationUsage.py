@@ -4,8 +4,8 @@ import segmentation_models as sm
 tf.keras.backend.set_image_data_format('channels_last')
 
 
-img_w = 300
-img_h = 300
+img_w = 256
+img_h = 256
 
 # model = sm.Unet('resnet101', classes=3, activation='softmax', input_shape=(img_h, img_w, 3), encoder_weights='imagenet')
 # preproc_f = sm.get_preprocessing('resnet101')
