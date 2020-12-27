@@ -235,7 +235,9 @@ class NeuralNetworkFlow:
 
     def set_neural_network_model(self, model, callbacks=None, epochs=None, optimizer=None, loss=None, metrics=None,
                                  compile=True):
-        self.models[0] = NeuralNetworkModel(model, callbacks, epochs, optimizer, loss, metrics, compile)
+        if len(self.models) > 0:
+            self.models.clear()
+        self.models.append(NeuralNetworkModel(model, callbacks, epochs, optimizer, loss, metrics, compile))
 
     def add_neural_network_model(self, model, callbacks=None, epochs=None, optimizer=None, loss=None, metrics=None,
                                  compile=True):
