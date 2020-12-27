@@ -217,7 +217,7 @@ class NeuralNetworkFlow:
             os.makedirs(ckpt_dir)
         ckpt_callback = tf.keras.callbacks.ModelCheckpoint(filepath=os.path.join(ckpt_dir, 'cp_{epoch:02d}.ckpt'),
                                                            save_weights_only=save_weights_only, verbose=1,
-                                                           save_best_only=True, mode='auto')
+                                                           save_best_only=True, mode='auto', monitor=monitor)
         callbacks.append(ckpt_callback)
         tb_dir = os.path.join(exp_dir, 'tb_logs')
         if not os.path.exists(tb_dir):
