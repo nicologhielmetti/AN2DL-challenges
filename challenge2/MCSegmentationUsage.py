@@ -14,7 +14,7 @@ preproc_fs = []
 
 for model_string in models_string:
     models.append(
-        sm.Unet(model_string, classes=3, activation='softmax', input_shape=(img_h, img_w, 3), encoder_freeze=False)
+        sm.Unet(model_string, classes=3, activation='softmax', input_shape=(img_h, img_w, 3), encoder_weights=None)
     )
     preproc_fs.append(sm.get_preprocessing(model_string))
 
