@@ -233,6 +233,10 @@ class NeuralNetworkFlow:
         callbacks.append(tf.keras.callbacks.ReduceLROnPlateau())
         return callbacks
 
+    def set_neural_network_model(self, model, callbacks=None, epochs=None, optimizer=None, loss=None, metrics=None,
+                                 compile=True):
+        self.models[0] = NeuralNetworkModel(model, callbacks, epochs, optimizer, loss, metrics, compile)
+
     def add_neural_network_model(self, model, callbacks=None, epochs=None, optimizer=None, loss=None, metrics=None,
                                  compile=True):
         self.models.append(
