@@ -7,7 +7,7 @@ tf.keras.backend.set_image_data_format('channels_last')
 img_w = 256
 img_h = 256
 
-models_string = ['resnext101', 'inceptionv3', 'senet154', 'vgg16']
+models_string = ['inceptionv3', 'senet154', 'vgg16']
 
 models = []
 preproc_fs = []

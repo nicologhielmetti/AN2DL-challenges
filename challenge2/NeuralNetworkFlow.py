@@ -89,6 +89,8 @@ class NeuralNetworkFlow:
         final_val_list.append(validation_list)
         final_val_list.append(target_list_validation)
 
+        if os.path.exists("Splits"):
+            os.rmdir("Splits")
         os.makedirs("Splits")
         os.chdir("Splits")
         with open("train.json", "w") as train:
