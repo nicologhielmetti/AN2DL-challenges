@@ -2,6 +2,7 @@ import os
 import zipfile
 from datetime import datetime
 import random
+import shutil
 
 from CustomDataset import CustomDataset
 from NeuralNetworkModel import NeuralNetworkModel
@@ -90,7 +91,7 @@ class NeuralNetworkFlow:
         final_val_list.append(target_list_validation)
 
         if os.path.exists("Splits"):
-            os.rmdir("Splits")
+            shutil.rmtree("Splits")
         os.makedirs("Splits")
         os.chdir("Splits")
         with open("train.json", "w") as train:
