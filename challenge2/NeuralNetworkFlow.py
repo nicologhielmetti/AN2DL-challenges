@@ -218,9 +218,15 @@ class NeuralNetworkFlow:
         ckpt_dir = os.path.join(exp_dir, 'ckpts')
         if not os.path.exists(ckpt_dir):
             os.makedirs(ckpt_dir)
+        if monitor == 'val_meanIoU':
+            mode = 'max'
+        elif monitor == 'val_loss':
+            mode = 'min'
+        else:
+            mode = 'auto'
         ckpt_callback = tf.keras.callbacks.ModelCheckpoint(filepath=os.path.join(ckpt_dir, 'cp_{epoch:02d}.ckpt'),
                                                            save_weights_only=save_weights_only, verbose=1,
-                                                           save_best_only=True, mode='auto', monitor=monitor)
+                                                           save_best_only=True, mode=mode, monitor=monitor)
         callbacks.append(ckpt_callback)
         tb_dir = os.path.join(exp_dir, 'tb_logs')
         if not os.path.exists(tb_dir):
